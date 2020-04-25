@@ -1,0 +1,4 @@
+seaborn
+tqdm
+numpy
+matplotlib

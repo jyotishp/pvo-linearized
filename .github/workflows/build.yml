@@ -1,0 +1,23 @@
+name: Status
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install python
+      run: sudo apt update && sudo apt install -y python3 ffmpeg cmake
+    - name: Install python packages
+      run: sudo -H pip3 install -r requirements.txt
+    - name: Build
+      run: mkdir build && cd build && cmake .. && make && cd ..
+    - name: Run
+      run: ./build/mpc_linearized > outputs.csv
+    - name: Plot
+      run: python3 plot.py outputs.csv
